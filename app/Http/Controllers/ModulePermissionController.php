@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\ModulePermission;
 use Illuminate\Http\Request;
+use App\Traits\ListingApiTrait;
 
 class ModulePermissionController extends Controller
 {
+    use ListingApiTrait;
     public function create(Request $request)
     {
         $request->validate([
@@ -29,12 +31,18 @@ class ModulePermissionController extends Controller
         return success('Module Permission Created Successfuly', $module_permission);
     }
 
-    public function list(){
-        $module_permission = ModulePermission::all();
-        if($module_permission){
-            return success('module_permissions list',$module_permission);
-        }
-        return error(type:'notfound');
+    public function list(Request $request)
+    {
+        $this->ListingValidation();
+        
+        $query = ModulePermission::query();
+        $searchable_fields = ['module_id']; 
+        $data = $this->filterSearchPagination($query,$searchable_fields);
+
+        return success('ModulePermission List',[
+            'users' =>  $data['query']->get(),
+            'count' =>  $data['count'],
+        ]);
     }
 
     public function update(Request $request ,ModulePermission $id){
