@@ -4,20 +4,25 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Module;
 use GrahamCampbell\ResultType\Success;
+use App\Traits\ListingApiTrait;
 
 class ModuleController extends Controller
 {
     /**
      * list Module
      */
+    use ListingApiTrait;
+    public function list(Request $request){
+        $this->ListingValidation();
+        $query = Module::query();
 
-    public function list(){
-        $module = Module::all();
+        $searchable_fields = ['name','description'];
+        $data = $this->filterSearchPagination($query,$searchable_fields);
 
-        if(count($module) > 0){
-            return success('list Modules',$module);
-        }
-        return error('Module List Not Found');
+        return success('Module List',[
+            'modules'   => $data['query']->get(),
+            'count'     => $data['count']
+        ]);
     }
 
     /**
@@ -28,7 +33,7 @@ class ModuleController extends Controller
             'name'          => 'required|string|min:3|max:30|unique:modules,name',
             'description'   => 'string'
         ],[
-            'unique' => 'this :attribute already in modules table please  enter unique code values',
+            'unique' => 'this :attribute already in modules table please  enter unique name values',
         ]);
 
         $module = Module::create($request->only('name','description'));

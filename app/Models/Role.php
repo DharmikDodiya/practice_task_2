@@ -19,8 +19,22 @@ class Role extends Model
         'updated_at'
     ];
 
+     /**
+     * many To many relation on role and permissions
+     */
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class,'role_permissions','permissions_id','roles_id');
+        return $this->belongsToMany(Permission::class,'role_permissions','roles_id','permissions_id');
     }
+
+    /**
+     * many to many relatonship on role to users
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class,'user_roles','roles_id','users_id');
+    }
+    
+
+
 }

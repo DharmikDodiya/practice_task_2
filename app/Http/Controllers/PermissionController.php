@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Permission;
+use App\Traits\ListingApiTrait;
 use Illuminate\Http\Request;
 
 class PermissionController extends Controller
@@ -10,6 +11,7 @@ class PermissionController extends Controller
     /**
      * create permissions
      */
+    use ListingApiTrait;
     public function create(Request $request){
         $request->validate([
             'name'          => 'required|string|max:30|unique:permissions',
@@ -23,12 +25,18 @@ class PermissionController extends Controller
     /**
      * list of all permissions
      */
-    public function list(){
-        $permission = Permission::all();
-        if($permission){
-            return success('permissions List',$permission);
-        }
-        return error(type:'notfound');
+    public function list(Request $request){
+
+        $this->ListingValidation();
+        $query = Permission::query();
+        $searchable_fields = ['name'];
+        $data = $this->filterSearchPagination($query,$searchable_fields);
+
+        return success('Permissions List',[
+            'permissions'   =>  $data['query']->get(),
+            'count'         =>  $data['count'],
+        ]);
+        
     }
 
     /**

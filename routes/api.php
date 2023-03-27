@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\ModulePermissionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +24,32 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+/**
+ * Authetication Routes
+ */
+Route::controller(AuthController::class)->group(function(){
+    Route::post('register','register');
+    Route::post('login','login');
+    Route::get('verifyuser/{token}','verifyAccount');
+    Route::post('forget-password','forgetPassword');
+    Route::post('reset-password','resetPassword');
+});
+
+
+Route::middleware('auth:sanctum')->group(function(){
+/**
+ * User Routes
+ */
+Route::controller(UserController::class)->group(function(){
+    Route::post('user-profile','userProfile');
+    Route::post('change-password','changePassword');
+    Route::get('get/{id}','get');
+    Route::get('logout','logout');
+    Route::patch('update','update');
+});
+
 
 /**
  * Module Routes
@@ -67,3 +95,4 @@ Route::controller(RoleController::class)->prefix('role')->group(function () {
     Route::get('get/{id}', 'get');
 });
 
+});
