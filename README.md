@@ -50,6 +50,7 @@
 
 # Error Reporting
 * Cretae Error model and migration
+* create middleware DBTransaction.php
 
 # create middleware
 * UserMiddleware
