@@ -63,7 +63,7 @@ class Handler extends ExceptionHandler
                     );
                     //dd($data);
                     Error::create($data);
-                    //return success('ok success');
+                    
                     if($exception instanceof AuthenticationException)
                     {
                         return error("Can't access this page without Login!!!",type:'unauthenticated');
