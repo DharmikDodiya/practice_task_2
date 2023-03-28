@@ -19,11 +19,10 @@ class Module extends Model
         'updated_at'
     ];
 
-    // public function permissions(){
-    //     return $this->belongsToMany(Permission::class,'module_permissions','modules_id','permissions_id')
-    //     ->withPivot('create','view','update','delete')->withTimestamps();
-    // }
     public function permissions(){
-        return $this->hasMany(ModulePermission::class);
+        return $this->belongsToMany(Permission::class,'module_permissions','module_id','permission_id');
     }
+    // public function permissions(){
+    //     return $this->hasMany(ModulePermission::class);
+    // }
 }

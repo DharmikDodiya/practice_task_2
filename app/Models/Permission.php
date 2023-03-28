@@ -14,11 +14,10 @@ class Permission extends Model
         'description'
     ];
 
-    // public function modules()
-    // {
-    //     return $this->belongsToMany(Module::class,'module_permissions','permissions_id','modules_id')
-    //     ->withPivot('create','update','view','delete')->withTimestamps();
-    // }
+    public function modulePermissions()
+    {
+        return $this->belongsToMany(Module::class,'module_permissions','module_id','permission_id');
+    }
 
     /**
      * many To many relation on role and permissions
@@ -27,5 +26,7 @@ class Permission extends Model
     {
         return $this->belongsToMany(Role::class,'role_permissions','permissions_id','roles_id');
     }
+
+    
     
 }
