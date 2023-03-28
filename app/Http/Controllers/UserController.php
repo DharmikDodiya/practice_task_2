@@ -55,11 +55,38 @@ class UserController extends Controller
      * login user profile
      */
     public function userProfile(){
+<<<<<<< HEAD
         $user = Auth::user();
+=======
+        $userid = Auth::user()->id;
+        $user = User::with('roles')->find($userid);
+>>>>>>> develop
         if($user){
             return success('user Profile Details',$user);
         }
             return error(type:'notfound');        
     }
 
+<<<<<<< HEAD
+=======
+    /**
+    * update User
+    */
+
+    public function update( Request $request){
+        $request->validate([
+            'first_name'            => 'string',
+            'last_name'             => 'string',
+            'phone'                 => 'min:10|max:10',
+            'role_ids'              => 'exists:roles,id|array',
+        ]);
+        $user = Auth::user();
+        if($user){
+            $user->update($request->only('first_name','last_name','phone'));
+            $user->roles()->syncWithoutDetaching($request->role_ids);
+            return success('User Data Updated Successfully',$user);
+        }
+        return error('User Data Not Updated',type:'notfound');
+    }
+>>>>>>> develop
 }
