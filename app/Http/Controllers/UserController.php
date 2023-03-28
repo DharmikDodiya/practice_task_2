@@ -55,20 +55,16 @@ class UserController extends Controller
      * login user profile
      */
     public function userProfile(){
-<<<<<<< HEAD
         $user = Auth::user();
-=======
         $userid = Auth::user()->id;
         $user = User::with('roles')->find($userid);
->>>>>>> develop
         if($user){
             return success('user Profile Details',$user);
         }
             return error(type:'notfound');        
     }
 
-<<<<<<< HEAD
-=======
+
     /**
     * update User
     */
@@ -88,5 +84,5 @@ class UserController extends Controller
         }
         return error('User Data Not Updated',type:'notfound');
     }
->>>>>>> develop
+
 }

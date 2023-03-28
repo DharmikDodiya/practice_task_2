@@ -47,11 +47,8 @@ Route::controller(UserController::class)->group(function(){
     Route::post('change-password','changePassword');
     Route::get('get/{id}','get');
     Route::get('logout','logout');
-<<<<<<< HEAD
     Route::patch('update','update');
-=======
     Route::post('update','update');
->>>>>>> develop
 });
 
 
