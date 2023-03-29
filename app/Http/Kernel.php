@@ -22,6 +22,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\DBTransaction::class,
+       
     ];
 
     /**
@@ -45,9 +46,9 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
-        'permission' =>[
-            \App\Http\Middleware\UserMiddleware::class,
-        ],
+        // 'permission' =>[
+        //     \App\Http\Middleware\PermissionCheck::class,
+        // ],
     ];
 
     /**
@@ -68,5 +69,6 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'permission' => \App\Http\Middleware\PermissionCheck::class, 
     ];
 }

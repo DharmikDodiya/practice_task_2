@@ -1,13 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Role;
 use App\Traits\ListingApiTrait;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+    /**
+     * listing data using search and pagination
+     */
     use ListingApiTrait;
     /**
      * create role
@@ -83,6 +85,4 @@ class RoleController extends Controller
         }
         return error(type:'notfound');
     }
-    
-
 }

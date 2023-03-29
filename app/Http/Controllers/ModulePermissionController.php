@@ -8,7 +8,14 @@ use App\Traits\ListingApiTrait;
 
 class ModulePermissionController extends Controller
 {
+    /**
+     * listing data using search and pagination
+     */
     use ListingApiTrait;
+
+    /**
+     * create ModulePermission
+     */
     public function create(Request $request)
     {
         $request->validate([
@@ -31,6 +38,9 @@ class ModulePermissionController extends Controller
         return success('Module Permission Created Successfuly', $module_permission);
     }
 
+    /**
+     * list ModulePermission
+     */
     public function list(Request $request)
     {
         $this->ListingValidation();
@@ -45,6 +55,9 @@ class ModulePermissionController extends Controller
         ]);
     }
 
+    /**
+     * update ModulePermission
+     */
     public function update(Request $request ,ModulePermission $id){
         $request->validate([
             'create'        => 'boolean|numeric|max:1',
@@ -65,6 +78,9 @@ class ModulePermissionController extends Controller
         return error('ModulePermission Not Updated');
     }
 
+    /**
+     * Delete ModulePermission
+     */
     public function delete($id){
         $module_permission = ModulePermission::find($id);
         if($module_permission){
@@ -74,6 +90,9 @@ class ModulePermissionController extends Controller
         return error(type:'notfound');
     }
 
+    /**
+     * get modulePermission By id
+     */
     public function get($id){
         $module_permission = ModulePermission::with('module','permission')->get();
         if($module_permission){

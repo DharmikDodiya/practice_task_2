@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\AuthenticationException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use PhpParser\Node\Stmt\Return_;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
@@ -63,6 +64,7 @@ class Handler extends ExceptionHandler
                     );
                     //dd($data);
                     Error::create($data);
+                    //return 'ok';
                     
                     if($exception instanceof AuthenticationException)
                     {

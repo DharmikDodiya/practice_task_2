@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Module;
-use GrahamCampbell\ResultType\Success;
 use App\Traits\ListingApiTrait;
 
 class ModuleController extends Controller
 {
     /**
-     * list Module
+     * Listing Data using search and pagination 
      */
     use ListingApiTrait;
+    /**
+     * list Module
+     */
     public function list(Request $request){
         $this->ListingValidation();
         $query = Module::query();

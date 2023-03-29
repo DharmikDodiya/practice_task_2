@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Permission;
 use App\Traits\ListingApiTrait;
 use Illuminate\Http\Request;
@@ -9,9 +8,12 @@ use Illuminate\Http\Request;
 class PermissionController extends Controller
 {
     /**
-     * create permissions
+     * Listing Data using search and pagination
      */
     use ListingApiTrait;
+    /**
+     * create permissions
+     */
     public function create(Request $request){
         $request->validate([
             'name'          => 'required|string|max:30|unique:permissions',

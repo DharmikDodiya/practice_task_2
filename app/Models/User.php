@@ -52,4 +52,13 @@ class User extends Authenticatable
     public function roles(){
         return $this->belongsToMany(Role::class,'user_roles','users_id','roles_id');
     }
+    public $module_code,$access;
+    
+    public function hasAccess($module_code,$access){
+        foreach($this->roles as $role){
+            if($role->hasAccess($module_code,$access)){
+                return true;
+            }
+        }
+    }
 }
