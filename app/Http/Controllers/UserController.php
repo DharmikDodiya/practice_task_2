@@ -74,17 +74,7 @@ class UserController extends Controller
         return error('User Data Not Updated',type:'notfound');
     }
 
-    /**
-     * login user profile
-     */
-    public function userProfile(){
-        $userid = Auth::user()->id;
-        $user = User::with('roles')->find($userid);
-        if($user){
-            return success('user Profile Details',$user);
-        }
-            return error(type:'notfound');        
-    }
+ 
 
     /**
     * Delete User 
