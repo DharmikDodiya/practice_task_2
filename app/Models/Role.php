@@ -35,6 +35,16 @@ class Role extends Model
         return $this->belongsToMany(User::class,'user_roles','roles_id','users_id');
     }
     
+    public $module_code,$access;
+    
+    public function hasAccess($module_code,$access){
+        foreach($this->permissions as $permission){
+            if($permission->hasAccess($module_code,$access)){
+                return true;
+            }
+        }
+    }
+
 
 
 }

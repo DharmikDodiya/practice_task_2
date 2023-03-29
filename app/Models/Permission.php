@@ -27,6 +27,24 @@ class Permission extends Model
         return $this->belongsToMany(Role::class,'role_permissions','permissions_id','roles_id');
     }
 
-    
-    
+    public function modules()
+    {
+        return $this->belongsToMany(Module::class,'module_permissions','permission_id','module_id')->withPivot(['create','view','update','delete']);
+    }
+
+    public $module_code,$access;
+    public function hasAccess($module_code,$access){
+        foreach($this->modules as $module){
+            dd($module);
+            $check = $module->where('name',$module_code)->where($access == true)->first();
+            if($check){
+                dd('ok');
+                return true;
+            }
+            else{
+                dd('not access');
+                return false;
+            }
+        }
+    }
 }

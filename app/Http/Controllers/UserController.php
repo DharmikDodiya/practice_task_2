@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Traits\ListingApiTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
+
 
 class UserController extends Controller
 {
@@ -30,17 +29,7 @@ class UserController extends Controller
     }
 
     /**
-     * logout user
-     */
-    public function logout()
-    {
-        $user = auth()->user()->tokens();
-        $user->delete();
-        return success('you are logout naow');
-    }
-
-    /**
-     * get user role by user id
+     * get use and role by user id
      */
     public function get($id){
         $user = User::with('roles')->find($id);
@@ -65,10 +54,10 @@ class UserController extends Controller
     }
 
 
+    
     /**
     * update User
     */
-
     public function update( Request $request){
         $request->validate([
             'first_name'            => 'string',
@@ -85,4 +74,36 @@ class UserController extends Controller
         return error('User Data Not Updated',type:'notfound');
     }
 
+    /**
+     * login user profile
+     */
+    public function userProfile(){
+        $userid = Auth::user()->id;
+        $user = User::with('roles')->find($userid);
+        if($user){
+            return success('user Profile Details',$user);
+        }
+            return error(type:'notfound');        
+    }
+
+    /**
+    * Delete User 
+    */
+    public function delete(){
+        $user = Auth::user();
+        if($user){
+        $user->delete();
+        }
+        return error('You Can Not Delete This Account',type:'notfound');
+    }
+
+    /**
+    * logout user
+    */
+    public function logout()
+    {
+        $user = auth()->user()->tokens();
+        $user->delete();
+        return success('you are logout naow');
+    }
 }

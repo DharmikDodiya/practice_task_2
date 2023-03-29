@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\ModulePermissionController;
@@ -49,12 +50,14 @@ Route::controller(UserController::class)->group(function(){
     Route::get('logout','logout');
     Route::patch('update','update');
     Route::post('update','update');
+    Route::delete('delete','delete');
 });
 
 
 /**
  * Module Routes
  */
+//Route::middleware(['permission'])->group(function(){
 Route::controller(ModuleController::class)->prefix('module')->group(function () {
     Route::get('/list', 'list');
     Route::post('/create','create');
@@ -62,6 +65,7 @@ Route::controller(ModuleController::class)->prefix('module')->group(function () 
     Route::delete('delete/{id}', 'delete');
     Route::get('get/{id}', 'get');
 });
+// });
 
 /**
  * Permission Routes
@@ -96,4 +100,13 @@ Route::controller(RoleController::class)->prefix('role')->group(function () {
     Route::get('get/{id}', 'get');
 });
 
+/**
+ * Job Module Route With Permission Middleware
+ */
+Route::controller(JobController::class)->prefix('job')->group(function(){
+    Route::get('/view', 'view')->middleware(['permission::job,view']);
+    Route::post('/create','create')->middleware(['permission:job,create']);
+    Route::patch('/update/{id}','update')->middleware(['permission::job,update']);
+    Route::delete('delete/{id}', 'delete')->middleware(['permission:job,delete']);
+});
 });

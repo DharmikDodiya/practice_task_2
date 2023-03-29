@@ -7,7 +7,6 @@ use App\Notifications\PasswordResetMail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\PasswordReset;
@@ -57,11 +56,9 @@ class AuthController extends Controller
                 $verifyAccount->token = '';
                 $verifyAccount->save();
 
-            return success('Your Mail Is verified login now');
-            } 
-        else{
-            return error('Your Email Is Already Verified',type:'unauthenticated');        
-        }
+            return success('Your Mail Is Verified Login Now');
+        } 
+        return error('Your Email Is Already Verified',type:'unauthenticated');        
     }
 
     /**
@@ -76,19 +73,10 @@ class AuthController extends Controller
 
         if(Auth::attempt(['email' =>$request->email,'password' => $request->password , 'status' => 1])){
             $user = User::where('email', $request->email)->first();
-
-            return response()->json([
-                'message'   =>'You Are Login Now',
-                'token'     => $user->createToken("API TOKEN")->plainTextToken,
-                'status'    => 200
-            ]);
-
             return success('You Are Login Now',$user->createToken("API TOKEN")->plainTextToken,200);
         }
-        else{
             return error('Invalid Email Or Password',type:'unauthenticated');
         }
-    }
 
     /**
     * Forget Password  
@@ -125,22 +113,20 @@ class AuthController extends Controller
             'token'                 => 'required|exists:password_resets,token',
             'password_confirmation' =>  'required|same:password',
         ]);
-        $count = PasswordReset::where('token',$request->token)->first();
-        $expiredate = $count->expired_at >= $count->created_at;
+        $data = PasswordReset::where('token',$request->token)->first();
+        $expiredate = $data->expired_at >= $data->created_at;
         
         if($expiredate){
             User::updateOrCreate([
-                'email'     => $count->email
+                'email'     => $data->email
             ],[
                 'password'  => Hash::make($request->password)
             ]);
 
-            $count->delete();
+            $data->delete();
             return success('Password Reset Successfully');
 
         }
-        else{
             return error('Password Reset Token Expired',type:'unauthenticated');
-        }
     }
 }
