@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\ModulePermission;
 use App\Models\Permission;
 use App\Traits\ListingApiTrait;
 use Illuminate\Http\Request;
@@ -17,10 +19,11 @@ class PermissionController extends Controller
     public function create(Request $request){
         $request->validate([
             'name'          => 'required|string|max:30|unique:permissions',
-            'description'   => 'required|string|max:200'
+            'description'   => 'required|string|max:200',
         ]);
 
         $permission = Permission::create($request->only('name','description'));
+        
         return success('permissions created successfully',$permission);
     }
 

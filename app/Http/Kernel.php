@@ -22,7 +22,6 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\DBTransaction::class,
-       
     ];
 
     /**
@@ -45,16 +44,6 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
-
-<<<<<<< HEAD
-        'permission' =>[
-            \App\Http\Middleware\UserMiddleware::class,
-        ],
-=======
-        // 'permission' =>[
-        //     \App\Http\Middleware\PermissionCheck::class,
-        // ],
->>>>>>> develop
     ];
 
     /**
