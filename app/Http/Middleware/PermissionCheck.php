@@ -22,8 +22,6 @@ class PermissionCheck
         if($user->hasAccess($module_code,$access)){
             return $next($request);    
         }
-        // else{
-        //     return "no";
-        // }
+        return error('access denied');
     }
 }
