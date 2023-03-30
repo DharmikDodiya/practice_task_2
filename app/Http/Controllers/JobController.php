@@ -12,7 +12,7 @@ class JobController extends Controller
     use ListingApiTrait;
     public function create(Request $request){
         $request->validate([
-            'job_title'      => 'required|string',
+            'job_title'      => 'required|string|unique:jobs,job_title',
             'salary'         => 'required|numeric',
             'description'    => 'string|max:250|nullable'
         ]);
@@ -23,7 +23,7 @@ class JobController extends Controller
 
     public function update(Request $request,Job $id){
         $request->validate([
-            'job_title'      => 'required|string',
+            'job_title'      => 'required|string|unique:jobs,job_title,'.$id.',id',
             'salary'         => 'required|numeric',
             'description'    => 'string|max:250|nullable'
         ]);

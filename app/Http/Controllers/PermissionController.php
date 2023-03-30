@@ -20,23 +20,23 @@ class PermissionController extends Controller
         $request->validate([
             'name'          => 'required|string|max:30|unique:permissions',
             'description'   => 'required|string|max:200',
-            // 'create'        => 'boolean|nullable',
-            // 'view'          => 'boolean|nullable',
-            // 'update'        => 'boolean|nullable',
-            // 'delete'        => 'boolean|nullable',
-            // 'module_id'     => 'required|exists:modules,id'
+            'create'        => 'boolean|nullable',
+            'view'          => 'boolean|nullable',
+            'update'        => 'boolean|nullable',
+            'delete'        => 'boolean|nullable',
+            'module_id'     => 'required|exists:modules,id'
         ]);
         //dd($request);
         $permission = Permission::create($request->only('name','description'));
         //dd($permission->id);
-        // $modulepermission = ModulePermission::create([$request->only(
-        //     'module_id','create','view','delete','update'
-        // )+
-        // [
-        //     'permission_id'     => $permission->id
-        // ]]); 
+        $modulepermission = ModulePermission::create($request->only(
+            'module_id','create','view','delete','update'
+        )+
+        [
+            'permission_id'     => $permission->id
+        ]); 
         //$modulepermission = $permission->modules()->attach($request->module_id,$request->only(['create','update','delete','view']));
-        return success('permissions created successfully',$permission);
+        return success('permissions created successfully',$modulepermission);
     }
 
     /**
@@ -61,11 +61,17 @@ class PermissionController extends Controller
      */
     public function update(Request $request,Permission $id){
         $request->validate([
-            'name'          => 'string|max:30|unique:permissions,name',
-            'description'   => 'string|max:200'
+            'name'          => 'string|max:30|unique:permissions,name,'.$id.',id',
+            'description'   => 'string|max:200',
+            'create'        => 'boolean|nullable',
+            'view'          => 'boolean|nullable',
+            'update'        => 'boolean|nullable',
+            'delete'        => 'boolean|nullable',
         ]);
         if($id){
             $id->update($request->only('name','description'));
+            //dd($id);
+            
             return success('Permission Updated Successfuly',$id);
         }
         return error('permissions not updated',type:'forbidden');
