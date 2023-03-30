@@ -18,14 +18,12 @@ class PermissionCheck
     public $module_code,$access;
     public function handle(Request $request, Closure $next ,$module_code , $access):Response
     {
-        // dd($module_code,$access);
-        // return $next($request);
-
         $user = Auth::user();
-        //dd($module_code);
         if($user->hasAccess($module_code,$access)){
             return $next($request);    
         }
-        return "no";
+        // else{
+        //     return "no";
+        // }
     }
 }

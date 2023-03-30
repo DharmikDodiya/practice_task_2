@@ -34,15 +34,16 @@ class Permission extends Model
 
     public $module_code,$access;
     public function hasAccess($module_code,$access){
-        foreach($this->modules as $module){
-            dd($module);
-            $check = $module->where('name',$module_code)->where($access == true)->first();
-            if($check){
-                dd('ok');
+        foreach($this->modules as $module){       
+            //dd($module->pivot->$access);
+            $check = $module->where('name',$module_code)->first();
+            //dd($check);
+            if($check && $module->pivot->$access == 1){
+                //dd('ok');
                 return true;
             }
             else{
-                dd('not access');
+                //dd('not access');
                 return false;
             }
         }

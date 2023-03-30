@@ -48,7 +48,7 @@ class ModuleController extends Controller
 
     public function update(Request $request,Module $id){
         $request->validate([
-            'name'          => 'string|min:3|max:30|unique:modules,name',
+            'name'          => 'string|min:3|max:30|unique:modules,name,'.$id.',id',
             'description'   => 'string'
         ]);
 

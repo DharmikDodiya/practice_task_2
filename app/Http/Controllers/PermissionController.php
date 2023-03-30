@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\ModulePermission;
 use App\Models\Permission;
 use App\Traits\ListingApiTrait;
 use Illuminate\Http\Request;
@@ -17,10 +19,23 @@ class PermissionController extends Controller
     public function create(Request $request){
         $request->validate([
             'name'          => 'required|string|max:30|unique:permissions',
-            'description'   => 'required|string|max:200'
+            'description'   => 'required|string|max:200',
+            // 'create'        => 'boolean|nullable',
+            // 'view'          => 'boolean|nullable',
+            // 'update'        => 'boolean|nullable',
+            // 'delete'        => 'boolean|nullable',
+            // 'module_id'     => 'required|exists:modules,id'
         ]);
-
+        //dd($request);
         $permission = Permission::create($request->only('name','description'));
+        //dd($permission->id);
+        // $modulepermission = ModulePermission::create([$request->only(
+        //     'module_id','create','view','delete','update'
+        // )+
+        // [
+        //     'permission_id'     => $permission->id
+        // ]]); 
+        //$modulepermission = $permission->modules()->attach($request->module_id,$request->only(['create','update','delete','view']));
         return success('permissions created successfully',$permission);
     }
 
@@ -72,7 +87,7 @@ class PermissionController extends Controller
      * get permission By permission id
      */
     public function get($id){
-        $permission = Permission::find($id);
+        $permission = Permission::with('modules')->find($id);
         if($permission){
             return success('get permission by permissions Id',$permission);
         }
