@@ -14,7 +14,7 @@ class JobController extends Controller
         $request->validate([
             'job_title'      => 'required|string',
             'salary'         => 'required|numeric',
-            'description'    => 'string|max:250'
+            'description'    => 'string|max:250|nullable'
         ]);
 
         $job = Job::create($request->only('job_title','salary','description'));
@@ -25,7 +25,7 @@ class JobController extends Controller
         $request->validate([
             'job_title'      => 'required|string',
             'salary'         => 'required|numeric',
-            'description'    => 'string|max:250'
+            'description'    => 'string|max:250|nullable'
         ]);
         if($id){
             $id->update($request->only('job_title','salary','description'));

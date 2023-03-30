@@ -104,9 +104,10 @@ Route::controller(RoleController::class)->prefix('role')->group(function () {
  * Job Module Route With Permission Middleware
  */
 Route::controller(JobController::class)->prefix('job')->group(function(){
-    Route::get('/view', 'view')->middleware(['permission::job,view']);
+    Route::get('/view', 'view')->middleware(['permission:job,view']);
     Route::post('/create','create')->middleware(['permission:job,create']);
     Route::patch('/update/{id}','update')->middleware(['permission::job,update']);
     Route::delete('delete/{id}', 'delete')->middleware(['permission:job,delete']);
 });
+
 });
