@@ -26,23 +26,10 @@ class PermissionController extends Controller
             'delete'        => 'boolean|nullable',
             'module_id'     => 'required|exists:modules,id'
         ]);
-        //dd($request);
+        
         $permission = Permission::create($request->only('name','description'));
-<<<<<<< HEAD
-
-        //dd($permission->id);
-        $modulepermission = ModulePermission::create($request->only(
-            'module_id','create','view','delete','update'
-        )+
-        [
-            'permission_id'     => $permission->id
-        ]); 
-        //$modulepermission = $permission->modules()->attach($request->module_id,$request->only(['create','update','delete','view']));
-        return success('permissions created successfully',$modulepermission);
-=======
         $modulepermission = $permission->modules()->attach($request->module_id,$request->only(['create','update','delete','view']));
-        return success('permissions created successfully',$permission);
->>>>>>> develop
+        return success('permissions created successfully',$modulepermission);
     }
 
     /**
