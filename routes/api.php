@@ -40,7 +40,7 @@ Route::controller(AuthController::class)->group(function(){
 });
 
 
-Route::middleware('auth:sanctum','permission')->group(function(){
+Route::middleware('auth:sanctum')->group(function(){
 /**
  * User Routes
  */
