@@ -28,6 +28,7 @@ class PermissionController extends Controller
         ]);
         //dd($request);
         $permission = Permission::create($request->only('name','description'));
+<<<<<<< HEAD
 
         //dd($permission->id);
         $modulepermission = ModulePermission::create($request->only(
@@ -38,6 +39,10 @@ class PermissionController extends Controller
         ]); 
         //$modulepermission = $permission->modules()->attach($request->module_id,$request->only(['create','update','delete','view']));
         return success('permissions created successfully',$modulepermission);
+=======
+        $modulepermission = $permission->modules()->attach($request->module_id,$request->only(['create','update','delete','view']));
+        return success('permissions created successfully',$permission);
+>>>>>>> develop
     }
 
     /**
@@ -54,7 +59,6 @@ class PermissionController extends Controller
             'permissions'   =>  $data['query']->get(),
             'count'         =>  $data['count'],
         ]);
-        
     }
 
     /**
@@ -62,16 +66,19 @@ class PermissionController extends Controller
      */
     public function update(Request $request,Permission $id){
         $request->validate([
-            'name'          => 'string|max:30|unique:permissions,name,'.$id.',id',
+            'name'          => 'string|max:30',
             'description'   => 'string|max:200',
             'create'        => 'boolean|nullable',
             'view'          => 'boolean|nullable',
             'update'        => 'boolean|nullable',
             'delete'        => 'boolean|nullable',
+            'module_id'     => 'exists:modules,id|array'
         ]);
         if($id){
+            //dd($id);
             $id->update($request->only('name','description'));
             //dd($id);
+            $id->modules()->updateExistingPivot($request->module_id,$request->only(['create' ,'update' ,'delete' ,'view']));
             
             return success('Permission Updated Successfuly',$id);
         }
@@ -85,6 +92,7 @@ class PermissionController extends Controller
         $permission = Permission::find($id);
         if($permission){
             $permission->delete();
+            $permission->modules()->detach();
             return success('permissions deleted successfully');
         }
         return error(type:'notfound');
@@ -100,24 +108,5 @@ class PermissionController extends Controller
         }
         return error(type:'notfound');
     }
-
-
-    // public function create(Request $request){
-    //     $request->validate([
-    //         'name'          => 'required|string|unique:permissions,name',
-    //         'description'   => 'required|string|max:200',
-    //         'module_id'            => 'exists:modules,id|required|array',
-    //         'create'        => 'boolean',
-    //         'view'          => 'boolean',
-    //         'update'        => 'boolean',
-    //         'delete'        => 'boolean',
-    //     ]);
-
-    //     $permission = Permission::create($request->only('name','description'));
-    //     $moduleids = $request->module_id;
-    //     $permission->modules()->attach($moduleids,['create' => $request->create,'view' => $request->view , 'update' => $request->update , 'delete' => $request->delete]);
-    //     return success('your Permission Created Successfully',$permission);
-
-    // }
 }
 

@@ -24,13 +24,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-
 /**
- * Authetication Routes
+ * UnAuthetication Routes
  */
 Route::controller(AuthController::class)->group(function(){
     Route::post('register','register');
@@ -40,7 +35,9 @@ Route::controller(AuthController::class)->group(function(){
     Route::post('reset-password','resetPassword');
 });
 
-
+/**
+ * Authetication Routes
+ */
 Route::middleware('auth:sanctum')->group(function(){
 /**
  * User Routes
@@ -91,7 +88,6 @@ Route::controller(CompanyController::class)->prefix('company')->group(function()
 /**
  * Module Routes
  */
-//Route::middleware(['permission'])->group(function(){
 Route::controller(ModuleController::class)->prefix('module')->group(function () {
     Route::get('/list', 'list');
     Route::post('/create','create');
@@ -99,7 +95,7 @@ Route::controller(ModuleController::class)->prefix('module')->group(function () 
     Route::delete('delete/{id}', 'delete');
     Route::get('get/{id}', 'get');
 });
-// });
+
 /**
  * Permission Routes
  */

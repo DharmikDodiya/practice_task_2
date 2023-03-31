@@ -16,9 +16,9 @@ class RoleController extends Controller
      */
     public function create(Request $request){
         $request->validate([
-            'name'              => 'string|unique:roles,name|max:20',
+            'name'              => 'required|string|unique:roles,name|max:20',
             'description'       => 'string|max:200',
-            'permissions_id'    => 'array|exists:permissions,id'
+            'permissions_id'    => 'required|array|exists:permissions,id'
         ]);
         $permissionsids = $request->permissions_id;
         $role = Role::create($request->only('name','description'));
@@ -48,7 +48,7 @@ class RoleController extends Controller
      */
     public function update(Request $request,Role $id){
         $request->validate([
-            'name'              => 'string|max:20|unique:roles,name,'.$id.',id',
+            'name'              => 'string|max:20|unique:roles,name',
             'description'       => 'string|max:200',
             'permissions_id'    => 'array|exists:permissions,id'
         ]);
