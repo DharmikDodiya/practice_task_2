@@ -25,7 +25,7 @@ class AuthController extends Controller
             'last_name'             => 'required|string',
             'email'                 => 'required|unique:users,email|email',
             'phone'                 => 'required|unique:users,phone|min:10|max:10',
-            'role_ids'              => 'exists:roles,id|array',
+            'role_ids'              => 'required|exists:roles,id|array',
             'password'              => 'required|same:password_confirmation|min:6|max:12',
             'password_confirmation' => 'required',
         ]);

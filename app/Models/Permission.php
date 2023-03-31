@@ -14,6 +14,12 @@ class Permission extends Model
         'description'
     ];
 
+    protected $hidden =[
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
+
     public function modulePermissions()
     {
         return $this->belongsToMany(Module::class,'module_permissions','module_id','permission_id');
@@ -37,10 +43,10 @@ class Permission extends Model
         //dd($module_code,$access);
         $res = false;
         foreach($this->modules as $module){     
-            //dd($module);
             $check = $module->where('name',$module_code)->first();
             if($check && ($module->pivot->module_id == $check->id && $module->pivot->$access == 1)){
                 $res = true;
+                break;
             }
             else{
                 $res = false;
