@@ -23,8 +23,8 @@ class JobController extends Controller
 
     public function update(Request $request,Job $id){
         $request->validate([
-            'job_title'      => 'required|string|unique:jobs,job_title,'.$id.',id',
-            'salary'         => 'required|numeric',
+            'job_title'      => 'string|unique:jobs,job_title,'.$id.',id',
+            'salary'         => 'numeric',
             'description'    => 'string|max:250|nullable'
         ]);
         if($id){
@@ -54,6 +54,14 @@ class JobController extends Controller
             return success('Job Deleted Successfully');
         }
         return error(type:'notfound');
+    }
+
+    public function get($id){
+        $job = Job::find($id);
+        if($job){
+            return success('Job Data',$job);
+        }
+        return error('No Data Found');
     }
     
 
