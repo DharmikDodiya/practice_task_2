@@ -31,19 +31,22 @@ class Permission extends Model
     {
         return $this->belongsToMany(Module::class,'module_permissions','permission_id','module_id')->withPivot(['create','view','update','delete']);
     }
-
+    
     public $module_code,$access;
     public function hasAccess($module_code,$access){
-        foreach($this->modules as $module){       
+        //dd($module_code,$access);
+        $res = false;
+        foreach($this->modules as $module){     
             //dd($module);
             $check = $module->where('name',$module_code)->first();
-            //dd($module->pivot->$access);
-            if($check && $module->pivot->$access == 1){
-                return true;
+            if($check && ($module->pivot->module_id == $check->id && $module->pivot->$access == 1)){
+                $res = true;
             }
             else{
-                return false;
+                $res = false;
             }
         }
+            //dd($res);
+            return $res;
     }
 }

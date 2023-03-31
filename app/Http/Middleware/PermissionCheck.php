@@ -19,6 +19,7 @@ class PermissionCheck
     public function handle(Request $request, Closure $next ,$module_code , $access):Response
     {
         $user = Auth::user();
+        //dd($user);
         if($user->hasAccess($module_code,$access)){
             return $next($request);    
         }

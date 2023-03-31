@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\PermissionController;
@@ -59,8 +60,9 @@ Route::controller(UserController::class)->group(function(){
 Route::controller(JobController::class)->prefix('job')->group(function(){
     Route::get('/view', 'view')->middleware(['permission:job,view']);
     Route::post('/create','create')->middleware(['permission:job,create']);
-    Route::patch('/update/{id}','update')->middleware(['permission::job,update']);
-    Route::delete('delete/{id}', 'delete')->middleware(['permission:job,delete']);
+    Route::patch('/update/{id}','update')->middleware(['permission:job,update']);
+    Route::delete('/delete/{id}', 'delete')->middleware(['permission:job,delete']);
+    Route::get('get/{id}','get')->middleware('permission:job,view');
 });
 /**
  * employee Route With Permission Middleware
@@ -68,10 +70,21 @@ Route::controller(JobController::class)->prefix('job')->group(function(){
 Route::controller(EmployeeController::class)->prefix('employee')->group(function(){
     Route::get('/view', 'list')->middleware(['permission:employee,view']);
     Route::post('/create','create')->middleware(['permission:employee,create']);
-    Route::patch('/update/{id}','update')->middleware(['permission::employee,update']);
-    Route::delete('delete/{id}', 'delete')->middleware(['permission:employee,delete']);
+    Route::patch('/update/{id}','update')->middleware(['permission:employee,update']);
+    Route::delete('/delete/{id}', 'delete')->middleware(['permission:employee,delete']);
+    Route::get('/get/{id}','get')->middleware('permission:employee,view');
 });
 
+/**
+ * Company Route With Permission Middleware
+ */
+Route::controller(CompanyController::class)->prefix('company')->group(function(){
+    Route::get('/view', 'list')->middleware(['permission:company,view']);
+    Route::post('/create','create')->middleware(['permission:company,create']);
+    Route::patch('/update/{id}','update')->middleware(['permission:company,update']);
+    Route::delete('/delete/{id}', 'delete')->middleware(['permission:company,delete']);
+    Route::get('/get/{id}','get')->middleware('permission:company,view');
+});
 });
 
 

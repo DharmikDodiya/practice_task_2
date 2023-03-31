@@ -4,18 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class EmployeeController extends Controller
+class CompanyController extends Controller
 {
     public function create(Request $request){
-        return success('Create Access');
+        return success('create Access');
     }
 
     public function list(){
-        return success('List Access');
+        return success('View Access');
     }
 
     public function update(Request $request,$id){
-        return success('Update Access');
+        return success('update Access');
     }
 
     public function delete($id){
@@ -23,6 +23,6 @@ class EmployeeController extends Controller
     }
 
     public function get($id){
-        return success('Get Data By Id');
+        return success('Get Data By Id Access');
     }
 }
