@@ -28,9 +28,7 @@ class PermissionController extends Controller
         ]);
         //dd($request);
         $permission = Permission::create($request->only('name','description'));
-<<<<<<< HEAD
-        
-=======
+
         //dd($permission->id);
         $modulepermission = ModulePermission::create($request->only(
             'module_id','create','view','delete','update'
