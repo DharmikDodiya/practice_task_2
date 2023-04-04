@@ -89,7 +89,7 @@ class PermissionController extends Controller
      * get permission By permission id
      */
     public function get($id){
-        $permission = Permission::with('modules')->find($id);
+        $permission = Permission::with('modules','roles')->find($id);
         if($permission){
             return success('get permission by permissions Id',$permission);
         }
