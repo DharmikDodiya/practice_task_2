@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use App\Traits\ListingApiTrait;
 
 class EmployeeController extends Controller
 {
+    use ListingApiTrait;
     public function create(Request $request){
         $request->validate([
             'name'          => 'required|string|max:30',
@@ -19,11 +21,16 @@ class EmployeeController extends Controller
     }
 
     public function list(){
-        $employee = Employee::all();
-        if($employee){
-            return success('Employee List',$employee);
-        }
-        return error('Data Not Found',type:'notfound');
+        $this->ListingValidation();
+            $query = Employee::query();
+    
+            $searchable_fields = ['name','designation','email'];
+            $data = $this->filterSearchPagination($query,$searchable_fields);
+    
+            return success('Employee List',[
+                'Employee'       => $data['query']->get(),
+                'count'          => $data['count']
+            ]);
     }
 
     public function update(Request $request,Employee $id){

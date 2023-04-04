@@ -11,8 +11,8 @@ trait ListingApiTrait
     public function ListingValidation()
     {
         $this->validate(request(), [
-        'page'          => 'integer',
-        'perPage'       => 'integer',
+        'page'          => 'integer|nullable',
+        'perPage'       => 'integer|nullable',
         'search'        => 'nullable|string',
     ]);
         return true;
