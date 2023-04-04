@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use PgSql\Lob;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Traits\ListingApiTrait;
+use Illuminate\Support\Facades\Log;
 
 class EmployeeController extends Controller
 {
@@ -26,7 +28,7 @@ class EmployeeController extends Controller
     
             $searchable_fields = ['name','designation','email'];
             $data = $this->filterSearchPagination($query,$searchable_fields);
-    
+            Log::channel('dharmik')->emergency("Employee List Form Custom Log File");
             return success('Employee List',[
                 'Employee'       => $data['query']->get(),
                 'count'          => $data['count']
